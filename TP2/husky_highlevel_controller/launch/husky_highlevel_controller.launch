@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+ 
+<launch>
+   <include file="$(find husky_gazebo)/launch/husky_empty_world.launch">
+      <arg name="laser_enabled" value="true"/>
+      <arg name="world_name" value="/usr/share/gazebo-9/worlds/robocup14_spl_field.world" />
+   </include>
+ 
+   <node pkg="husky_highlevel_controller" type="husky_highlevel_controller_node" name="laser_listener" output="screen">
+       <param name="scan_topic_name" value="/scan"/>
+       <param name="scan_topic_queue_size" value="10" />
+   </node>
+   
+   <node name="teleop" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen" />
+ 
+   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find husky_highlevel_controller)/rviz/laser_scan.rviz"/>
+</launch>
